@@ -1,11 +1,7 @@
-import { getBlog, getBlogPostByID } from "@/api/blog/api";
+import { getBlogPostByID } from "@/api/blog/api";
 import { getGitHubUserData } from "@/api/github/api";
-import BlogPreview from "@/components/blog-preview/blog-preview";
 import Header from "@/components/header/header";
 import { Metadata } from "next";
-import Link from "next/link";
-import style from "./blog.module.scss";
-import { useRouter } from "next/navigation";
 import BlogPostClient from "./client";
 
 export const generateMetadata = async ({ params }: {

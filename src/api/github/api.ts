@@ -32,7 +32,7 @@ export const getAllUserRepos = async (): Promise<GitHubRepo[]> => {
             method: "GET"
         });
         return request.data;
-    } catch (ex) {
+    } catch {
         return [];
     }
 }

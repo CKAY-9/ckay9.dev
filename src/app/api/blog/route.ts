@@ -1,5 +1,5 @@
 import { BlogEntry, NewBlogEntry } from "@/api/blog/dto";
-import { read, readFile, readFileSync, writeFileSync } from "fs"
+import { readFileSync, writeFileSync } from "fs"
 import { NextRequest } from "next/server";
 
 const BLOG_LOCATION = "./public/blog.json";
@@ -7,7 +7,7 @@ const AUTHORIZATION_KEY = process.env.AUTHORIZATION_KEY;
 
 export const writeToBlogFile = (blog_data: BlogEntry[]) => {
     try {
-        const blog_file = writeFileSync(BLOG_LOCATION, JSON.stringify(blog_data));
+        writeFileSync(BLOG_LOCATION, JSON.stringify(blog_data));
     } catch (ex) {
         console.log(ex);
     }
@@ -17,7 +17,7 @@ export const readBlogFile = (): BlogEntry[] => {
     try {
         const blogs_file = readFileSync(BLOG_LOCATION, "utf-8");
         return (JSON.parse(blogs_file));
-    } catch (ex) {
+    } catch {
         writeToBlogFile([]);
         return [];
     }
@@ -66,6 +66,7 @@ export const GET = async (request: NextRequest) => {
     }
 
     // get specific blog
+    // TODO: replace with binary search or faster algo
     for (let i = 0; i < blogs.length; i++) {
         const b = blogs[i];
         if (b.id === id) {
