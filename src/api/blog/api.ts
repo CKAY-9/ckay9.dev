@@ -1,7 +1,6 @@
 import axios from "axios";
 import { BlogEntry, NewBlogEntry } from "./dto";
-
-export const SELF_HOST = process.env.NEXT_PUBLIC_SELF_HOST || "http://127.0.0.1:3000";
+import { SELF_HOST } from "../resources";
 
 export const getBlog = async (): Promise<BlogEntry[]> => {
     try {

@@ -1,0 +1,1 @@
+export const SELF_HOST = process.env.NEXT_PUBLIC_SELF_HOST || "http://127.0.0.1:3000";

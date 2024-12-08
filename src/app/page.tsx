@@ -1,10 +1,11 @@
-import { getGitHubUserData, GITHUB_USERNAME } from "@/api/github/api";
+import { getGitHubUserData } from "@/api/github/api";
 import style from "./index.module.scss";
 import Image from "next/image";
 import { CountUp } from "./client";
 import Header from "@/components/header/header";
 import Link from "next/link";
 import { Metadata } from "next";
+import { GITHUB_USERNAME } from "./api/github/resources";
 
 export const generateMetadata = async (): Promise<Metadata> => {
     const github_user = await getGitHubUserData();

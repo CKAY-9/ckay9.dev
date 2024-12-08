@@ -1,13 +1,12 @@
 import axios from "axios";
 import { GitHubRepo, GitHubUser } from "./dto";
-
-export const GITHUB_USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "CKAY-9";
+import { SELF_HOST } from "../resources";
 
 export const getGitHubUserData = async (): Promise<GitHubUser | null> => {
     try {
         const request = await axios({
-            url: `https://api.github.com/users/${GITHUB_USERNAME}`,
-            method: "GET" 
+            url: `${SELF_HOST}/api/github/user`,
+            method: "GET"
         });
         return request.data;
     } catch {
@@ -28,7 +27,7 @@ export const getGitHubUserData = async (): Promise<GitHubUser | null> => {
 export const getAllUserRepos = async (): Promise<GitHubRepo[]> => {
     try {
         const request = await axios({
-            url: `https://api.github.com/users/${GITHUB_USERNAME}/repos`,
+            url: `${SELF_HOST}/api/github/repos`,
             method: "GET"
         });
         return request.data;
