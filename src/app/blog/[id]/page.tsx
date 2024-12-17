@@ -4,6 +4,8 @@ import Header from "@/components/header/header";
 import { Metadata } from "next";
 import BlogPostClient from "./client";
 
+type Params = Promise<{ id: string }>
+
 export const generateMetadata = async ({ params }: {
     params: {
         id: string
@@ -36,9 +38,7 @@ export const generateMetadata = async ({ params }: {
 }
 
 const BlogPostPage = async ({ params }: {
-    params: {
-        id: string
-    }
+    params: Params
 }) => {
     const github_user = await getGitHubUserData();
     if (github_user === null) {
