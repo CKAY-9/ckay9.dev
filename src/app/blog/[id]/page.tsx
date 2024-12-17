@@ -7,9 +7,7 @@ import BlogPostClient from "./client";
 type Params = Promise<{ id: string }>
 
 export const generateMetadata = async ({ params }: {
-    params: {
-        id: string
-    }
+    params: Params
 }): Promise<Metadata> => {
     const github_user = await getGitHubUserData();
     if (github_user === null) {
