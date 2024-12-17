@@ -5,7 +5,7 @@ import { NextRequest } from "next/server";
 const BLOG_LOCATION = "./public/blog.json";
 const AUTHORIZATION_KEY = process.env.AUTHORIZATION_KEY;
 
-export const writeToBlogFile = (blog_data: BlogEntry[]) => {
+const writeToBlogFile = (blog_data: BlogEntry[]) => {
     try {
         writeFileSync(BLOG_LOCATION, JSON.stringify(blog_data));
     } catch (ex) {
@@ -13,7 +13,7 @@ export const writeToBlogFile = (blog_data: BlogEntry[]) => {
     }
 }
 
-export const readBlogFile = (): BlogEntry[] => {
+const readBlogFile = (): BlogEntry[] => {
     try {
         const blogs_file = readFileSync(BLOG_LOCATION, "utf-8");
         return (JSON.parse(blogs_file));
