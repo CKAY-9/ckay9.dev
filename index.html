@@ -19,6 +19,7 @@
                     src="https://avatars.githubusercontent.com/u/53030585?v=4"
                     alt="GitHub Profile Picture"
                     class="icon"
+                    onclick="changeBackground()"
                 />
                 <h1>CKAY9.dev</h1>
                 <h2>Cameron Armstrong</h2>
@@ -32,5 +33,19 @@
                 </div>
             </section>
         </div>
+
+        <script>
+            function changeBackground() {
+                const colors = [
+                    'rgb(10, 30, 40)',
+                    'rgb(20, 30, 50)',
+                    'rgb(10, 20, 40)',
+                    'rgb(30, 20, 40)'
+                ];
+                
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                document.body.style.backgroundColor = randomColor;
+            }
+        </script>
     </body>
 </html>
