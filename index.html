@@ -1,51 +1,41 @@
 <html>
-    <head>
-        <title>CKAY9.dev</title>
-        <meta
-            name="description"
-            content="Web and Systems Developer from Vancouver, BC. Experience in a wide variety of tools (Git, Docker), programming languages (TypeScript, Rust, Java, Python), platforms (AWS, Vercel), etc."
-        />
-        <link
-            rel="icon"
-            type="image/x-icon"
-            href="https://avatars.githubusercontent.com/u/53030585?v=4"
-        />
-        <link rel="stylesheet" href="./styles.css" />
-    </head>
-    <body>
-        <div class="container">
-            <section class="content">
-                <img
-                    src="https://avatars.githubusercontent.com/u/53030585?v=4"
-                    alt="GitHub Profile Picture"
-                    class="icon"
-                    onclick="changeBackground()"
-                />
-                <h1>CKAY9.dev</h1>
-                <h2>Cameron Armstrong</h2>
-                <span>Programming and making whatever...</span>
-                <div class="links">
-                    <a href="https://github.com/CKAY-9">GitHub</a>
-                    <a href="https://codeberg.org/CKAY9">Codeberg</a>
-                    <a href="#" style="opacity: 0.5"
-                        >Projects (coming soon...)</a
-                    >
-                </div>
-            </section>
-        </div>
 
-        <script>
-            function changeBackground() {
-                const colors = [
-                    'rgb(10, 30, 40)',
-                    'rgb(20, 30, 50)',
-                    'rgb(10, 20, 40)',
-                    'rgb(30, 20, 40)'
-                ];
-                
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                document.body.style.backgroundColor = randomColor;
-            }
-        </script>
-    </body>
+<head>
+    <title>CKAY9.dev</title>
+    <meta name="description"
+        content="Web and Systems Developer from Vancouver, BC. Experience in a wide variety of tools (Git, Docker), programming languages (TypeScript, Rust, Java, Python), platforms (AWS, Vercel), etc." />
+    <link rel="icon" type="image/x-icon" href="https://avatars.githubusercontent.com/u/53030585?v=4" />
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+    <div class="container">
+        <section class="content">
+            <img src="https://avatars.githubusercontent.com/u/53030585?v=4" alt="GitHub Profile Picture" class="icon"
+                onclick="changeBackground()" />
+            <h1>CKAY9.dev</h1>
+            <h2>Cameron Armstrong</h2>
+            <span>Hey, I work on web and game development, but also love tinkering and CAD</span>
+            <div class="links">
+                <a href="https://github.com/CKAY-9">GitHub</a>
+                <a href="./projects.html">Projects</a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function changeBackground() {
+            const colors = [
+                'rgb(5, 12, 18)',
+                'rgb(10, 14, 26)',
+                'rgb(5, 10, 22)',
+                'rgb(16, 10, 22)'
+            ];
+
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            document.body.style.backgroundColor = randomColor;
+        }
+    </script>
+</body>
+
 </html>
