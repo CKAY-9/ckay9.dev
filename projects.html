@@ -40,6 +40,22 @@
     <script>
         const projects = [
             {
+                id: "bmod",
+                name: "BMod",
+                tagline: "Blender-To-Garry's Mod Tool.",
+                description: "Blender-to-Garry's Mod, or BMod, is a simple GUI app for converting modern model files and an unwrapped texture into a Garry's Mod static prop: .mdl plus .vtf/.vmt.",
+                tags: ["Garry's Mod", "Rust"],
+                links: [
+                    { label: "GitHub", url: "https://github.com/CKAY-9/bmod" },
+                ],
+                thumbnail: "https://github.com/CKAY-9/bmod/raw/main/screenshots/top.png",
+                // Optional. YouTube link (watch / youtu.be / shorts) or a direct video file (.mp4, .webm)
+                images: [
+                    "https://github.com/CKAY-9/bmod/raw/main/screenshots/export.png",
+                    "https://github.com/CKAY-9/bmod/raw/main/screenshots/settings.png"
+                ]
+            },
+            {
                 id: "village",
                 name: "Village",
                 tagline: "A Werewolf inspired deduction gamemode in Minecraft.",
@@ -66,7 +82,7 @@
                 ],
                 thumbnail: "https://github.com/CKAY-9/k9r/raw/main/assets/showcase/site_home.png",
                 images: [
-                    "https://github.com/CKAY-9/k9r/raw/main/assets/showcase/site_home.png", 
+                    "https://github.com/CKAY-9/k9r/raw/main/assets/showcase/site_home.png",
                     "https://github.com/CKAY-9/k9r/raw/main/assets/showcase/game_integration.png"
                 ]
             },
@@ -84,10 +100,10 @@
                 // Optional. YouTube link (watch / youtu.be / shorts) or a direct video file (.mp4, .webm)
                 showcaseVideo: "https://www.youtube.com/watch?v=LbOlZ-hnKLc",
                 images: [
-                    "https://images.steamusercontent.com/ugc/15011373583952941683/19707ACF1036BDFF76FBA3146F71C3FC9739CBB2/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false", 
+                    "https://images.steamusercontent.com/ugc/15011373583952941683/19707ACF1036BDFF76FBA3146F71C3FC9739CBB2/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false",
                     "https://images.steamusercontent.com/ugc/16162663311962553474/2F0DDE4E9123C957E199F8FC1D0765520D99C7B1/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false"
                 ]
-            }
+            },
         ];
 
         const slider = document.getElementById("slider");
