@@ -41,6 +41,7 @@
         const projects = [
             {
                 id: "bmod",
+                icon: "https://github.com/CKAY-9/bmod/raw/main/src-tauri/icons/icon.png", // Icon image URL
                 name: "BMod",
                 tagline: "Blender-To-Garry's Mod Tool.",
                 description: "Blender-to-Garry's Mod, or BMod, is a simple GUI app for converting modern model files and an unwrapped texture into a Garry's Mod static prop: .mdl plus .vtf/.vmt.",
@@ -57,6 +58,7 @@
             },
             {
                 id: "village",
+                icon: "https://camo.githubusercontent.com/2a6d65300ef786587d4d5fd7f9bcc51ec228cd9990871da18739c4de9dc70166/68747470733a2f2f692e696d6775722e636f6d2f7865697249636b2e706e67", // Icon image URL
                 name: "Village",
                 tagline: "A Werewolf inspired deduction gamemode in Minecraft.",
                 description: "Village follows a very similar flow to Among Us. Players will move around, do tasks, etc. until either a body is found or a meeting is called. Once a meeting is called, players will be teleported to the meeting teleport to discuss (I recommend using Discord for voice, but chat works fine). They are able to evict a player by majority vote, or just go onto the next day.",
@@ -73,6 +75,7 @@
             },
             {
                 id: "k9r",
+                icon: "https://github.com/CKAY-9/k9r/blob/main/assets/icon_square.png?raw=true", // Icon image URL
                 name: "K9R",
                 tagline: "An absolute overhaul to K9-Forums. K9-Revive.",
                 description: "K9-Revive (K9R) is a spiritual successor to my previous project K9-Forums. K9-Forums was, as I decided with many other projects, poorly structured, not what I would want to have out there, and not complete. K9R is ultimately my first major revision of one of projects, with more likely to come (they have been deleted off of GitHub), and will hopefully be great; however, K9-Forums will remain on GitHub as it is in a \"usable\" state and as a look back into my coding history.",
@@ -88,6 +91,7 @@
             },
             {
                 id: "mushroommania",
+                icon: "https://github.com/CKAY-9/mushroommania/blob/main/icon.png?raw=true", // Icon image URL
                 name: "Mushroom Mania",
                 tagline: "An interactive cultivation addon for Garry's Mod DarkRP.",
                 description: "A mushroom cultivation mechanic for DarkRP. Prepare a MonoTub, grow one of five strains, keep it misted and filtered, then dry your harvest and sell it to a Mushroom Enthusiast.",
@@ -133,6 +137,10 @@
                 : `<video src="${src}" controls preload="metadata" playsinline></video>`;
         }
 
+        function icon(p, cls) {
+            return p.icon ? `<img class="project-icon ${cls}" src="${p.icon}" alt="" />` : "";
+        }
+
         function initials(name) {
             return name.split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase();
         }
@@ -142,7 +150,7 @@
             <button class="project-card" data-id="${p.id}">
                 <div class="project-thumb">${media(p.thumbnail, p.name, initials(p.name))}</div>
                 <div class="project-card-body">
-                    <h3>${p.name}</h3>
+                    <h3 class="name-row">${icon(p, "sm")}<span>${p.name}</span></h3>
                     <p>${p.tagline}</p>
                     <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
                 </div>
@@ -159,7 +167,7 @@
         function renderDetail(p) {
             detail.innerHTML = `
                 <div class="detail-header">
-                    <h2>${p.name}</h2>
+                    <h2 class="name-row">${icon(p, "lg")}<span>${p.name}</span></h2>
                     <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
                     <p class="detail-desc">${p.description}</p>
                     <div class="detail-links">

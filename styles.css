@@ -422,3 +422,25 @@ span.tag {
         gap: 1rem;
     }
 }
+
+.name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.project-icon {
+    object-fit: contain;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.project-icon.sm {
+    width: 28px;
+    height: 28px;
+}
+
+.project-icon.lg {
+    width: 48px;
+    height: 48px;
+}
