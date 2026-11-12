@@ -1,94 +1,3 @@
-// ---------- Project data ----------
-const projects = [
-    {
-        id: "gnet",
-        icon: "/assets/garrynet/logo.svg", // Icon image URL
-        name: "GarryNet",
-        tagline: "Unify your Garry's Mod Community.",
-        description: "An all-in-one, self-hosted website for Garry's Mod communities: forums, a store, support tickets, loading screens and live server sync, all in one deployment.",
-        tags: ["Garry's Mod", "Web"],
-        links: [
-            { label: "GitHub", url: "https://github.com/CKAY-9/garrynet" },
-        ],
-        thumbnail: "/assets/garrynet/home.png",
-        // Optional. YouTube link (watch / youtu.be / shorts) or a direct video file (.mp4, .webm)
-        images: [
-            "/assets/garrynet/store.png",
-            "/assets/garrynet/admin-usergroups.png"
-        ]
-    },
-    {
-        id: "bmod",
-        icon: "/assets/bmod/icon.png", // Icon image URL
-        name: "BMod",
-        tagline: "Blender-To-Garry's Mod Tool.",
-        description: "Blender-to-Garry's Mod, or BMod, is a simple GUI app for converting modern model files and an unwrapped texture into a Garry's Mod static prop: .mdl plus .vtf/.vmt.",
-        tags: ["Garry's Mod", "Rust"],
-        links: [
-            { label: "GitHub", url: "https://github.com/CKAY-9/bmod" },
-        ],
-        thumbnail: "/assets/bmod/top.png",
-        // Optional. YouTube link (watch / youtu.be / shorts) or a direct video file (.mp4, .webm)
-        images: [
-            "/assets/bmod/export.png",
-            "/assets/bmod/settings.png"
-        ]
-    },
-    {
-        id: "village",
-        icon: "/assets/village/icon.png", // Icon image URL
-        name: "Village",
-        tagline: "A Werewolf inspired deduction gamemode in Minecraft.",
-        description: "Village follows a very similar flow to Among Us. Players will move around, do tasks, etc. until either a body is found or a meeting is called. Once a meeting is called, players will be teleported to the meeting teleport to discuss (I recommend using Discord for voice, but chat works fine). They are able to evict a player by majority vote, or just go onto the next day.",
-        tags: ["Minecraft", "Java"],
-        links: [
-            { label: "GitHub", url: "https://github.com/CKAY-9/village" },
-            { label: "Spigot", url: "https://www.spigotmc.org/resources/village.130487" }
-        ],
-        thumbnail: "/assets/village/villager.png",
-        images: [
-            "/assets/village/reactor.png",
-            "/assets/village/sabotage.png"
-        ]
-    },
-    {
-        id: "cxtokens",
-        icon: "/assets/cxtokens/icon.png", // Icon image URL
-        name: "CxTokens",
-        tagline: "A full economy system for Spigot/Paper Minecraft servers.",
-        description: "CxTokens adds a complete token-based economy to Spigot/Paper servers. Players can buy and sell items in a configurable store, bid against each other in a live auction house, place bounties on rivals, store money in physical vaults, share balances through PIN-protected token accounts, and take their chances in timed lotteries. Nearly every feature can be tweaked or disabled through config files.",
-        tags: ["Minecraft", "Java"],
-        links: [
-            { label: "GitHub", url: "https://github.com/CKAY-9/CxTokens" },
-            { label: "Spigot", url: "https://www.spigotmc.org/resources/cxtokens.115789/" }
-        ],
-        thumbnail: "/assets/cxtokens/store.png",
-        images: [
-            "/assets/cxtokens/auction.png",
-            "/assets/cxtokens/vault.png"
-        ]
-    },
-    {
-        id: "mushroommania",
-        icon: "/assets/mushroommania/icon.png", // Icon image URL
-        name: "Mushroom Mania",
-        tagline: "An interactive cultivation addon for Garry's Mod DarkRP.",
-        description: "A mushroom cultivation mechanic for DarkRP. Prepare a MonoTub, grow one of five strains, keep it misted and filtered, then dry your harvest and sell it to a Mushroom Enthusiast.",
-        tags: ["Garry's Mod", "Lua"],
-        links: [
-            { label: "GitHub", url: "https://github.com/CKAY-9/mushroommania" },
-            { label: "Steam Workshop", url: "https://steamcommunity.com/sharedfiles/filedetails/?id=3835560405" }
-        ],
-        thumbnail: "/assets/mushroommania/showcase.jpg",
-        // Optional. YouTube link (watch / youtu.be / shorts) or a direct video file (.mp4, .webm)
-        showcaseVideo: "https://www.youtube.com/watch?v=LbOlZ-hnKLc",
-        images: [
-            "/assets/mushroommania/enthusiast.jpg",
-            "/assets/mushroommania/shelf.jpg"
-        ]
-    },
-];
-
 // ---------- DOM ----------
 const container = document.getElementById("container");
 const homeView = document.getElementById("home-view");
@@ -99,9 +8,21 @@ const slider = document.getElementById("slider");
 const gridPanel = document.getElementById("grid-panel");
 const detailPanel = document.getElementById("detail-panel");
 const grid = document.getElementById("project-grid");
-const detail = document.getElementById("project-detail");
 const backBtn = document.getElementById("back-btn");
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
+// ---------- Project data ----------
+// Project content lives in index.html as plain markup (a .project-card in the grid and a
+// .project-article for the detail) so it can be indexed. To add a project, add both there.
+const projects = [...grid.querySelectorAll(".project-card")].map(card => {
+    const icon = card.querySelector(".project-icon");
+    return {
+        id: card.dataset.id,
+        name: card.querySelector("h3").textContent.trim(),
+        icon: icon ? icon.getAttribute("src") : null,
+        article: document.getElementById("project-" + card.dataset.id),
+    };
+});
 
 // ---------- Home ----------
 function changeBackground() {
@@ -114,61 +35,22 @@ function changeBackground() {
     document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 }
 
-// ---------- Rendering ----------
-function media(src, alt, label) {
-    return src
-        ? `<img src="${src}" alt="${alt}" loading="lazy" />`
-        : `<div class="placeholder">${label}</div>`;
+// ---------- Detail ----------
+// Show one article (or none). Hidden articles have any playing video stopped.
+function showArticle(project) {
+    for (const p of projects) {
+        const show = p === project;
+        if (p.article.hidden !== show) continue;
+        p.article.hidden = !show;
+        if (!show) stopMedia(p.article);
+    }
 }
 
-function youtubeId(url) {
-    const m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
-    return m ? m[1] : null;
-}
-
-function video(src, title) {
-    const yt = youtubeId(src);
-    return yt
-        ? `<iframe src="https://www.youtube-nocookie.com/embed/${yt}" title="${title}" loading="lazy"
-               referrerpolicy="strict-origin-when-cross-origin"
-               allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>`
-        : `<video src="${src}" controls preload="metadata" playsinline></video>`;
-}
-
-function icon(p, cls) {
-    return p.icon ? `<img class="project-icon ${cls}" src="${p.icon}" alt="" />` : "";
-}
-
-function initials(name) {
-    return name.split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase();
-}
-
-grid.innerHTML = projects.map(p => `
-    <button class="project-card" data-id="${p.id}">
-        <div class="project-thumb">${media(p.thumbnail, p.name, initials(p.name))}</div>
-        <div class="project-card-body">
-            <h3 class="name-row">${icon(p, "sm")}<span>${p.name}</span></h3>
-            <p>${p.tagline}</p>
-            <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
-        </div>
-    </button>
-`).join("");
-
-function renderDetail(p) {
-    detail.innerHTML = `
-        <div class="detail-header">
-            <h2 class="name-row">${icon(p, "lg")}<span>${p.name}</span></h2>
-            <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
-            <p class="detail-desc">${p.description}</p>
-            <div class="detail-links">
-                ${p.links.map(l => `<a href="${l.url}" target="_blank" rel="noopener">${l.label} &nearr;</a>`).join("")}
-            </div>
-        </div>
-        ${p.showcaseVideo ? `<figure class="showcase-video">${video(p.showcaseVideo, `${p.name} showcase video`)}</figure>` : ""}
-        <div class="gallery">
-            ${p.images.map((src, i) => `<figure>${media(src, `${p.name} screenshot ${i + 1}`, "Screenshot")}</figure>`).join("")}
-        </div>
-    `;
+function stopMedia(article) {
+    article.querySelectorAll("video").forEach(v => v.pause());
+    // An iframe keeps playing while display:none; swapping in a clone (lazy, so it
+    // doesn't load until shown again) stops it.
+    article.querySelectorAll("iframe").forEach(f => f.replaceWith(f.cloneNode()));
 }
 
 // Keep the slider as tall as whichever panel is showing
@@ -359,7 +241,7 @@ function setView(view) {
 function showProject(project) {
     openId = project ? project.id : null;
     if (project) {
-        renderDetail(project);
+        showArticle(project);
         slider.classList.add("open");
         gridPanel.inert = true;
         detailPanel.inert = false;
@@ -369,9 +251,9 @@ function showProject(project) {
         slider.classList.remove("open");
         gridPanel.inert = false;
         detailPanel.inert = true;
-        // Clear the detail once it has slid away so any playing video stops
+        // Hide the article once it has slid away so any playing video stops
         setTimeout(() => {
-            if (!slider.classList.contains("open")) detail.innerHTML = "";
+            if (!slider.classList.contains("open")) showArticle(null);
         }, 500);
     }
     updateBg();

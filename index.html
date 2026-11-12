@@ -77,13 +77,137 @@
                     <div class="slider-track">
                         <!-- Panel 1: grid -->
                         <div class="slider-panel" id="grid-panel">
-                            <div class="project-grid" id="project-grid"></div>
+                            <div class="project-grid" id="project-grid">
+                                <a class="project-card" href="#projects/gnet" data-id="gnet">
+                                    <div class="project-thumb"><img src="/assets/garrynet/home.png" alt="GarryNet" loading="lazy" /></div>
+                                    <div class="project-card-body">
+                                        <h3 class="name-row"><img class="project-icon sm" src="/assets/garrynet/logo.svg" alt="" /><span>GarryNet</span></h3>
+                                        <p>Unify your Garry's Mod Community.</p>
+                                        <div class="tags"><span class="tag">Garry's Mod</span><span class="tag">Web</span></div>
+                                    </div>
+                                </a>
+                                <a class="project-card" href="#projects/bmod" data-id="bmod">
+                                    <div class="project-thumb"><img src="/assets/bmod/top.png" alt="BMod" loading="lazy" /></div>
+                                    <div class="project-card-body">
+                                        <h3 class="name-row"><img class="project-icon sm" src="/assets/bmod/icon.png" alt="" /><span>BMod</span></h3>
+                                        <p>Blender-To-Garry's Mod Tool.</p>
+                                        <div class="tags"><span class="tag">Garry's Mod</span><span class="tag">Rust</span></div>
+                                    </div>
+                                </a>
+                                <a class="project-card" href="#projects/village" data-id="village">
+                                    <div class="project-thumb"><img src="/assets/village/villager.png" alt="Village" loading="lazy" /></div>
+                                    <div class="project-card-body">
+                                        <h3 class="name-row"><img class="project-icon sm" src="/assets/village/icon.png" alt="" /><span>Village</span></h3>
+                                        <p>A Werewolf inspired deduction gamemode in Minecraft.</p>
+                                        <div class="tags"><span class="tag">Minecraft</span><span class="tag">Java</span></div>
+                                    </div>
+                                </a>
+                                <a class="project-card" href="#projects/cxtokens" data-id="cxtokens">
+                                    <div class="project-thumb"><img src="/assets/cxtokens/store.png" alt="CxTokens" loading="lazy" /></div>
+                                    <div class="project-card-body">
+                                        <h3 class="name-row"><img class="project-icon sm" src="/assets/cxtokens/icon.png" alt="" /><span>CxTokens</span></h3>
+                                        <p>A full economy system for Spigot/Paper Minecraft servers.</p>
+                                        <div class="tags"><span class="tag">Minecraft</span><span class="tag">Java</span></div>
+                                    </div>
+                                </a>
+                                <a class="project-card" href="#projects/mushroommania" data-id="mushroommania">
+                                    <div class="project-thumb"><img src="/assets/mushroommania/showcase.jpg" alt="Mushroom Mania" loading="lazy" /></div>
+                                    <div class="project-card-body">
+                                        <h3 class="name-row"><img class="project-icon sm" src="/assets/mushroommania/icon.png" alt="" /><span>Mushroom Mania</span></h3>
+                                        <p>An interactive cultivation addon for Garry's Mod DarkRP.</p>
+                                        <div class="tags"><span class="tag">Garry's Mod</span><span class="tag">Lua</span></div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
 
                         <!-- Panel 2: detail -->
                         <div class="slider-panel" id="detail-panel" inert>
                             <button class="back-btn" id="back-btn">&larr; All projects</button>
-                            <div id="project-detail"></div>
+                            <div id="project-detail">
+                                <article class="project-article" id="project-gnet" hidden>
+                                    <div class="detail-header">
+                                        <h2 class="name-row"><img class="project-icon lg" src="/assets/garrynet/logo.svg" alt="" /><span>GarryNet</span></h2>
+                                        <div class="tags"><span class="tag">Garry's Mod</span><span class="tag">Web</span></div>
+                                        <p class="detail-desc">An all-in-one, self-hosted website for Garry's Mod communities: forums, a store, support tickets, loading screens and live server sync, all in one deployment.</p>
+                                        <div class="detail-links">
+                                            <a href="https://github.com/CKAY-9/garrynet" target="_blank" rel="noopener">GitHub &nearr;</a>
+                                        </div>
+                                    </div>
+                                    <div class="gallery">
+                                        <figure><img src="/assets/garrynet/store.png" alt="GarryNet screenshot 1" loading="lazy" /></figure>
+                                        <figure><img src="/assets/garrynet/admin-usergroups.png" alt="GarryNet screenshot 2" loading="lazy" /></figure>
+                                    </div>
+                                </article>
+
+                                <article class="project-article" id="project-bmod" hidden>
+                                    <div class="detail-header">
+                                        <h2 class="name-row"><img class="project-icon lg" src="/assets/bmod/icon.png" alt="" /><span>BMod</span></h2>
+                                        <div class="tags"><span class="tag">Garry's Mod</span><span class="tag">Rust</span></div>
+                                        <p class="detail-desc">Blender-to-Garry's Mod, or BMod, is a simple GUI app for converting modern model files and an unwrapped texture into a Garry's Mod static prop: .mdl plus .vtf/.vmt.</p>
+                                        <div class="detail-links">
+                                            <a href="https://github.com/CKAY-9/bmod" target="_blank" rel="noopener">GitHub &nearr;</a>
+                                        </div>
+                                    </div>
+                                    <div class="gallery">
+                                        <figure><img src="/assets/bmod/export.png" alt="BMod screenshot 1" loading="lazy" /></figure>
+                                        <figure><img src="/assets/bmod/settings.png" alt="BMod screenshot 2" loading="lazy" /></figure>
+                                    </div>
+                                </article>
+
+                                <article class="project-article" id="project-village" hidden>
+                                    <div class="detail-header">
+                                        <h2 class="name-row"><img class="project-icon lg" src="/assets/village/icon.png" alt="" /><span>Village</span></h2>
+                                        <div class="tags"><span class="tag">Minecraft</span><span class="tag">Java</span></div>
+                                        <p class="detail-desc">Village follows a very similar flow to Among Us. Players will move around, do tasks, etc. until either a body is found or a meeting is called. Once a meeting is called, players will be teleported to the meeting teleport to discuss (I recommend using Discord for voice, but chat works fine). They are able to evict a player by majority vote, or just go onto the next day.</p>
+                                        <div class="detail-links">
+                                            <a href="https://github.com/CKAY-9/village" target="_blank" rel="noopener">GitHub &nearr;</a>
+                                            <a href="https://www.spigotmc.org/resources/village.130487" target="_blank" rel="noopener">Spigot &nearr;</a>
+                                        </div>
+                                    </div>
+                                    <div class="gallery">
+                                        <figure><img src="/assets/village/reactor.png" alt="Village screenshot 1" loading="lazy" /></figure>
+                                        <figure><img src="/assets/village/sabotage.png" alt="Village screenshot 2" loading="lazy" /></figure>
+                                    </div>
+                                </article>
+
+                                <article class="project-article" id="project-cxtokens" hidden>
+                                    <div class="detail-header">
+                                        <h2 class="name-row"><img class="project-icon lg" src="/assets/cxtokens/icon.png" alt="" /><span>CxTokens</span></h2>
+                                        <div class="tags"><span class="tag">Minecraft</span><span class="tag">Java</span></div>
+                                        <p class="detail-desc">CxTokens adds a complete token-based economy to Spigot/Paper servers. Players can buy and sell items in a configurable store, bid against each other in a live auction house, place bounties on rivals, store money in physical vaults, share balances through PIN-protected token accounts, and take their chances in timed lotteries. Nearly every feature can be tweaked or disabled through config files.</p>
+                                        <div class="detail-links">
+                                            <a href="https://github.com/CKAY-9/CxTokens" target="_blank" rel="noopener">GitHub &nearr;</a>
+                                            <a href="https://www.spigotmc.org/resources/cxtokens.115789/" target="_blank" rel="noopener">Spigot &nearr;</a>
+                                        </div>
+                                    </div>
+                                    <div class="gallery">
+                                        <figure><img src="/assets/cxtokens/auction.png" alt="CxTokens screenshot 1" loading="lazy" /></figure>
+                                        <figure><img src="/assets/cxtokens/vault.png" alt="CxTokens screenshot 2" loading="lazy" /></figure>
+                                    </div>
+                                </article>
+
+                                <article class="project-article" id="project-mushroommania" hidden>
+                                    <div class="detail-header">
+                                        <h2 class="name-row"><img class="project-icon lg" src="/assets/mushroommania/icon.png" alt="" /><span>Mushroom Mania</span></h2>
+                                        <div class="tags"><span class="tag">Garry's Mod</span><span class="tag">Lua</span></div>
+                                        <p class="detail-desc">A mushroom cultivation mechanic for DarkRP. Prepare a MonoTub, grow one of five strains, keep it misted and filtered, then dry your harvest and sell it to a Mushroom Enthusiast.</p>
+                                        <div class="detail-links">
+                                            <a href="https://github.com/CKAY-9/mushroommania" target="_blank" rel="noopener">GitHub &nearr;</a>
+                                            <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3835560405" target="_blank" rel="noopener">Steam Workshop &nearr;</a>
+                                        </div>
+                                    </div>
+                                    <figure class="showcase-video">
+                                        <iframe src="https://www.youtube-nocookie.com/embed/LbOlZ-hnKLc" title="Mushroom Mania showcase video" loading="lazy"
+                                                referrerpolicy="strict-origin-when-cross-origin"
+                                                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
+                                    </figure>
+                                    <div class="gallery">
+                                        <figure><img src="/assets/mushroommania/enthusiast.jpg" alt="Mushroom Mania screenshot 1" loading="lazy" /></figure>
+                                        <figure><img src="/assets/mushroommania/shelf.jpg" alt="Mushroom Mania screenshot 2" loading="lazy" /></figure>
+                                    </div>
+                                </article>
+                            </div>
                         </div>
                     </div>
                 </div>

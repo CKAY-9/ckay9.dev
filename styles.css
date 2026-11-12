@@ -238,8 +238,14 @@ body.dark .content:hover {
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Cards are links: drop the global underline animation */
+.project-card::after {
+    content: none;
+}
+
 .project-card:hover,
 .project-card:focus-visible {
+    color: inherit;
     transform: translateY(-4px);
     border-color: rgba(100, 150, 255, 0.5);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
