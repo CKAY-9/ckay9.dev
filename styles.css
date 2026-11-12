@@ -441,15 +441,15 @@ span.tag {
     to { --bg-pulse: 1; }
 }
 
-/* ---------- Page transitions (home <-> projects) ----------
-   Cross-document view transitions: the card frame morphs between pages and
-   the avatar shrinks into the header. Browsers without support just navigate. */
-@media (prefers-reduced-motion: no-preference) {
-    @view-transition {
-        navigation: auto;
-    }
+/* ---------- Views (home / projects share one card) ----------
+   display: contents keeps the card's flex layout applying to each view's children. */
+.view:not([hidden]) {
+    display: contents;
 }
 
+/* ---------- View transitions (home <-> projects) ----------
+   app.js wraps the view swap in document.startViewTransition: the card frame
+   morphs and the avatar shrinks into the header. Unsupported browsers just swap. */
 .content {
     view-transition-name: card;
 }
