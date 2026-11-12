@@ -10,6 +10,10 @@
 </head>
 
 <body class="dark">
+    <!-- Two layers so switching between projects crossfades instead of swapping -->
+    <div class="bg-tiles" aria-hidden="true"><div class="bg-tiles-pan"></div></div>
+    <div class="bg-tiles" aria-hidden="true"><div class="bg-tiles-pan"></div></div>
+
     <div class="container wide">
         <section class="content">
             <header class="projects-header">
@@ -218,6 +222,8 @@
                     if (!slider.classList.contains("open")) detail.innerHTML = "";
                 }, 500);
             }
+            if (project) hoverId = null;
+            updateBg();
             syncHeight();
         }
 
@@ -237,6 +243,165 @@
         }
         new ResizeObserver(syncHeight).observe(gridPanel);
         new ResizeObserver(syncHeight).observe(detailPanel);
+
+        // ---------- Icon backdrop ----------
+        const TILE = 160; // keep in sync with --tile in styles.css
+        const ICON_SIZE = 36;
+        const tileUrls = {};
+        const bgLayers = [...document.querySelectorAll(".bg-tiles")];
+        let bgActive = 0;
+        let hoverId = null;
+        let focusId = null;
+
+        // Draw each icon into a padded, staggered tile once, so it repeats with breathing room
+        function buildTile(p) {
+            if (!p.icon) return;
+            const img = new Image();
+            img.onload = () => {
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                const c = document.createElement("canvas");
+                c.width = c.height = TILE * dpr;
+                const ctx = c.getContext("2d");
+                ctx.scale(dpr, dpr);
+                const w = img.naturalWidth || ICON_SIZE;
+                const h = img.naturalHeight || ICON_SIZE;
+                const s = ICON_SIZE / Math.max(w, h);
+                for (const [x, y] of [[0.25, 0.25], [0.75, 0.75]]) {
+                    ctx.save();
+                    ctx.translate(x * TILE, y * TILE);
+                    ctx.rotate(-0.2);
+                    ctx.drawImage(img, -w * s / 2, -h * s / 2, w * s, h * s);
+                    ctx.restore();
+                }
+                try {
+                    tileUrls[p.id] = `url(${c.toDataURL()})`;
+                    updateBg();
+                } catch { /* tainted canvas: skip the backdrop for this one */ }
+            };
+            img.src = p.icon;
+        }
+        projects.forEach(buildTile);
+
+        // ---------- Backdrop motion ----------
+        // Velocity-based so the direction can change mid-flight without the pattern jumping.
+        // Position wraps per tile, which is seamless because the pattern repeats per tile.
+        const DRIFT_SPEED = 9;     // px/s, the slow constant drift
+        const SURGE_DIST = TILE;   // extra px travelled during a transition
+        const SURGE_MS = 1100;
+        const FADE_MS = 800;       // keep moving while a layer fades out
+        const bgPans = bgLayers.map(l => l.querySelector(".bg-tiles-pan"));
+        const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+        const pos = { x: 0, y: 0 };
+        let dir = { x: Math.SQRT1_2, y: Math.SQRT1_2 }; // drift direction, starts down-right
+        let surge = null;          // { start, from, to } (unit vectors)
+        let lastShown = 0;
+        let lastFrame = 0;
+        let frameReq = 0;
+
+        // On each transition, pick a new direction at least 45 degrees away from the current one
+        function startSurge() {
+            if (reducedMotion.matches) return;
+            const angle = Math.atan2(dir.y, dir.x) + Math.PI / 4 + Math.random() * Math.PI * 1.5;
+            surge = { start: performance.now(), from: dir, to: { x: Math.cos(angle), y: Math.sin(angle) } };
+            kickMotion();
+        }
+
+        function kickMotion() {
+            if (frameReq || reducedMotion.matches) return;
+            lastFrame = performance.now();
+            frameReq = requestAnimationFrame(stepMotion);
+        }
+
+        function stepMotion(now) {
+            const dt = Math.min(now - lastFrame, 50) / 1000;
+            lastFrame = now;
+
+            let vx = dir.x * DRIFT_SPEED;
+            let vy = dir.y * DRIFT_SPEED;
+            if (surge) {
+                const u = Math.min((now - surge.start) / SURGE_MS, 1);
+                // Drift velocity blends straight across to the new direction (no sweeping
+                // rotation), plus a push along the new direction that swells and settles.
+                const ease = u * u * (3 - 2 * u);
+                const push = (SURGE_DIST * Math.PI / 2) / (SURGE_MS / 1000) * Math.sin(Math.PI * u);
+                vx = (surge.from.x + (surge.to.x - surge.from.x) * ease) * DRIFT_SPEED + surge.to.x * push;
+                vy = (surge.from.y + (surge.to.y - surge.from.y) * ease) * DRIFT_SPEED + surge.to.y * push;
+                if (u >= 1) {
+                    dir = surge.to;
+                    surge = null;
+                }
+            }
+
+            pos.x = (((pos.x + vx * dt) % TILE) + TILE) % TILE;
+            pos.y = (((pos.y + vy * dt) % TILE) + TILE) % TILE;
+            const t = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+            bgPans.forEach(p => p.style.transform = t);
+
+            if (bgLayers.some(l => l.classList.contains("peek") || l.classList.contains("open"))) lastShown = now;
+            frameReq = (surge || now - lastShown < FADE_MS) ? requestAnimationFrame(stepMotion) : 0;
+        }
+
+        reducedMotion.addEventListener("change", () => {
+            surge = null;
+            if (reducedMotion.matches) {
+                cancelAnimationFrame(frameReq);
+                frameReq = 0;
+            } else {
+                kickMotion();
+            }
+        });
+
+        function updateBg() {
+            const openId = slider.classList.contains("open") ? location.hash.slice(1) : null;
+            const id = openId || hoverId || focusId;
+            const current = bgLayers[bgActive];
+            const wasOpen = current.classList.contains("open");
+
+            if (!id) {
+                current.classList.remove("peek", "open");
+                if (wasOpen) startSurge();
+                return;
+            }
+
+            // Different project: fade the current layer out and bring the other one in.
+            // Same project (e.g. re-hovering mid fade-out) keeps its layer and just fades back.
+            if (current.dataset.id !== id) {
+                current.classList.remove("peek", "open");
+                bgActive ^= 1;
+            }
+
+            const layer = bgLayers[bgActive];
+            layer.dataset.id = id;
+            bgPans[bgActive].style.backgroundImage = tileUrls[id] || "";
+            layer.classList.toggle("open", !!openId);
+            layer.classList.toggle("peek", !openId);
+
+            // Opening or closing a project swoops the backdrop into a new direction
+            if (!!openId !== wasOpen) startSurge();
+            kickMotion();
+        }
+
+        grid.addEventListener("pointerover", e => {
+            if (e.pointerType === "touch") return;
+            const card = e.target.closest(".project-card");
+            hoverId = card ? card.dataset.id : null;
+            updateBg();
+        });
+        grid.addEventListener("pointerout", e => {
+            if (e.pointerType === "touch") return;
+            if (e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest(".project-card")) return;
+            hoverId = null;
+            updateBg();
+        });
+        grid.addEventListener("focusin", e => {
+            const card = e.target.closest(".project-card");
+            focusId = card && card.matches(":focus-visible") ? card.dataset.id : null;
+            updateBg();
+        });
+        grid.addEventListener("focusout", () => {
+            focusId = null;
+            updateBg();
+        });
 
         backBtn.addEventListener("click", goBack);
         window.addEventListener("popstate", route);

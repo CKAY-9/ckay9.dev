@@ -380,11 +380,119 @@ span.tag {
     background: #000;
 }
 
+/* ---------- Project icon backdrop ----------
+   opacity = base + amp * pulse. Hover pulses (amp > 0); opening a project
+   eases amp to 0 and base up, so hover -> open never jumps. */
+@property --bg-base {
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 0;
+}
+
+@property --bg-amp {
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 0;
+}
+
+@property --bg-pulse {
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 0;
+}
+
+.bg-tiles {
+    --tile: 160px;
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: calc(var(--bg-base) + var(--bg-amp) * var(--bg-pulse));
+    transition: --bg-base 0.7s ease, --bg-amp 0.7s ease;
+    animation: bgPulse 2.4s ease-in-out infinite alternate paused;
+}
+
+/* Position is driven from projects.html (drift + surge with random direction);
+   the script wraps it within one tile, so one tile of overscan is enough. */
+.bg-tiles-pan {
+    position: absolute;
+    top: calc(var(--tile) * -1);
+    left: calc(var(--tile) * -1);
+    right: 0;
+    bottom: 0;
+    background-repeat: repeat;
+    background-size: var(--tile) var(--tile);
+    will-change: transform;
+}
+
+.bg-tiles.peek {
+    --bg-base: 0.015;
+    --bg-amp: 0.04;
+    animation-play-state: running;
+}
+
+.bg-tiles.open {
+    --bg-base: 0.09;
+}
+
+@keyframes bgPulse {
+    from { --bg-pulse: 0; }
+    to { --bg-pulse: 1; }
+}
+
+/* ---------- Page transitions (home <-> projects) ----------
+   Cross-document view transitions: the card frame morphs between pages and
+   the avatar shrinks into the header. Browsers without support just navigate. */
+@media (prefers-reduced-motion: no-preference) {
+    @view-transition {
+        navigation: auto;
+    }
+}
+
+.content {
+    view-transition-name: card;
+}
+
+.icon,
+.icon-sm {
+    view-transition-name: avatar;
+}
+
+::view-transition-group(*) {
+    animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Clip the card's contents to its morphing frame instead of stretching them */
+::view-transition-group(card) {
+    overflow: clip;
+    border-radius: 15px;
+}
+
+::view-transition-old(card),
+::view-transition-new(card) {
+    width: 100%;
+    height: 100%;
+    object-fit: none;
+    object-position: top center;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .slider,
     .slider-track,
     .slider-panel {
         transition: none;
+    }
+
+    /* Keep the fades, drop the pulse (the script skips the drift) */
+    .bg-tiles {
+        animation: none;
+    }
+
+    .bg-tiles.peek {
+        --bg-base: 0.035;
+        --bg-amp: 0;
     }
 }
 
