@@ -327,6 +327,7 @@ reducedMotion.addEventListener("change", () => {
 // #projects/<id>    -> project detail
 let currentView = null;
 let routedHash = null;
+const homeTitle = document.title; // whatever index.html's <title> says
 
 function parseRoute() {
     const h = decodeURIComponent(location.hash.slice(1));
@@ -387,7 +388,7 @@ function route() {
     const apply = () => {
         if (view !== currentView) setView(view);
         showProject(view === "projects" ? project : null);
-        document.title = view === "home" ? "CKAY9.dev"
+        document.title = view === "home" ? homeTitle
             : project ? `${project.name} | CKAY9.dev`
             : "Projects | CKAY9.dev";
     };
